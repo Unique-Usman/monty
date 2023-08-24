@@ -10,6 +10,10 @@
  * Description: doubly linked list node structure
  * for stack, queues, LIFO, FIFO
  */
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
 typedef struct stack_s
 {
         int n;
@@ -30,5 +34,13 @@ typedef struct instruction_s
         char *opcode;
         void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
+
+int arg;
+
+void opcode_push(stack_t **stack, unsigned int line_number);
+void opcode_pall(stack_t **stack, unsigned int line_number);
+void opcode_pint(stack_t **stack, unsigned int line_number);
+void opcode_pop(stack_t **stack, unsigned int line_number);
+
 
 #endif /* MONTY_H */
