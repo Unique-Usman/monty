@@ -8,6 +8,9 @@ void interpret_code(string_t **string_head)
 		{"pall", opcode_pall},
 		{"pint", opcode_pint},
 		{"pop", opcode_pop},
+		{"swap", opcode_swap},
+		{"add", opcode_add},
+		{"sub", opcode_sub},
 		{NULL, NULL}
 	};
 	stack_t *stack;

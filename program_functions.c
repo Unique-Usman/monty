@@ -136,3 +136,43 @@ void opcode_pop(stack_t **stack, unsigned int line_number)
 	tmp->prev->next = NULL;
 	free(tmp);
 }
+
+
+/**
+ * opcode_swap - Swaps top two elements of the stack.
+ * @stack: Double pointer to the stack.
+ * @line_number: Line number in script file.
+ *
+ * Description: Swaps top two stack elements.
+ */
+void opcode_swap(stack_t **stack, unsigned int line_number)
+{
+	int count, tmp;
+	stack_t *temp;
+
+	temp = *stack;
+	count = 0;
+	while (temp != NULL)
+	{
+		temp = temp->next;
+		count++;
+		if (count == 2)
+			break;
+	}
+
+	if (count < 2)
+	{
+		printf("L%d: can't swap, stack too short", line_number);
+		exit(EXIT_FAILURE);
+	}
+
+	temp = *stack;
+	while (temp->next != NULL)
+	{
+		temp = temp->next;
+	}
+
+	tmp = temp->n;
+	temp->n = temp->prev->n;
+	temp->prev->n = tmp;
+}
