@@ -9,17 +9,17 @@ int verify (int arg)
 	return (1);
 }
 
-void execute_code(stack_t **head, char opcode[], int arg)
+/*void execute_code(stack_t **head, char opcode[], int arg)
 {
 
-}
+}*/
 void opcode_push(stack_t **stack, unsigned int line_number)
 {
 	stack_t *tmp, *new_stack;
 
 	tmp = *stack;
 	new_stack = malloc(sizeof(stack_t));
-	if (!tmp)
+	if (!new_stack)
 	{
 		printf("Error: malloc failed\n");
 		exit(EXIT_FAILURE);
@@ -33,8 +33,7 @@ void opcode_push(stack_t **stack, unsigned int line_number)
 	{
 		*stack = new_stack;
 		new_stack->next = NULL;
-		new_stack = NULL;
-		return;
+		new_stack->prev = NULL;
 	}
 	else
 	{
@@ -53,18 +52,23 @@ void opcode_pall(stack_t **stack, unsigned int line_number)
 
 	tmp = *stack;
 
+	while (tmp->next != NULL)
+	{
+		tmp = tmp->next;
+	}
+
 	while (tmp != NULL)
 	{
-		printf("%d", tmp->n);
-		tmp = tmp->next;
+		printf("%d\n", tmp->n);
+		tmp = tmp->prev;
 	}
 }
 
-void interpret_code(FILE *file)
+void interpret_code(string_t **string_stack)
 {
 	char buffer[1024];
-	char *opcode;
-	stack_t **head;
+	stack_t *head;
+        char opcode[100];
 	int i;
 	unsigned int line_number;
 
@@ -74,31 +78,61 @@ void interpret_code(FILE *file)
     		{"pall", opcode_pall},
     		{NULL, NULL}
 	};
-
-	while (fgets(buffer, sizeof(buffer), file) != NULL)
-	{
-        	char opcode[100];
-        	//int arg;
         	if (sscanf(buffer, "%s %d", opcode, &arg) == 1)
 		{
-            		arg = 0;
+			if (strcmp(opcode, "push") == 0)
+			{
+				printf("L%d: usage: push integer", line_number);
+				exit(EXIT_FAILURE);
+			}
         	}
 
+		printf("%s, %d", opcode, arg);
 		for (i = 0; instruction_table[i].opcode != NULL; i++)
 		{
 			if (strcmp(instruction_table[i].opcode, opcode) == 0)
 			{
-				instruction_table[i].f(head, line_number);
+				instruction_table[i].f(&head, line_number);
 				break;
 			}
 		}
-	}
+		line_number++;
 }
 
+void read_file(string_t **head, FILE *file)
+{
+	char buffer[1024];
+	string_t *tmp;
+
+	while (fgets(buffer, sizeof(buffer), file) != NULL)
+	{
+		tmp = malloc(sizeof(string_t));
+		if (!tmp)
+		{
+			printf("Error: malloc failed\n");
+			exit(EXIT_FAILURE);
+		}
+		strcpy(tmp->content, buffer);
+		tmp->next = NULL;
+		tmp->prev = NULL;
+		if (*head == NULL)
+		{
+			*head = tmp;
+		}
+		else
+		{
+			tmp->next = (*head);
+			(*head)->prev = tmp;
+			*head = tmp;
+		}
+	}
+}
 int main(int arg, char **args)
 {
 	FILE *file;
 	char err[1024];
+
+	string_t *head;
 
 	if (!verify(arg))
 	{
@@ -113,8 +147,15 @@ int main(int arg, char **args)
 		printf("%s", err);
 		exit(EXIT_FAILURE);
 	}
-	interpret_code(file);
+	read_file(&head, file);
 	fclose(file);
+
+	while (head != NULL)
+	{
+		printf("%s", head->content);
+		head = head->next;
+	}
+	//interpret_code(&head);
 
 	return (0);
 }
