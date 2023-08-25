@@ -52,12 +52,17 @@ typedef struct string_s
         struct string_s *next;
 } string_t;
 
-int arg;
+/* Global varaible */
+extern int arg;
 
+/* Global function which is used for manipulating the stack */
 void opcode_push(stack_t **stack, unsigned int line_number);
 void opcode_pall(stack_t **stack, unsigned int line_number);
 void opcode_pint(stack_t **stack, unsigned int line_number);
 void opcode_pop(stack_t **stack, unsigned int line_number);
 
+/* suportting functions */
+int verify(int argc);
+void read_file(string_t **head, FILE *file);
 
 #endif /* MONTY_H */

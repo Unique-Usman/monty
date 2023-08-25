@@ -1,140 +1,63 @@
 #include "monty.h"
 
-int verify (int arg)
+int arg = 0;
+void interpret_code(string_t **string_head)
 {
-	if (arg != 2)
-	{
-		return (0);
-	}
-	return (1);
-}
-
-/*void execute_code(stack_t **head, char opcode[], int arg)
-{
-
-}*/
-void opcode_push(stack_t **stack, unsigned int line_number)
-{
-	stack_t *tmp, *new_stack;
-
-	tmp = *stack;
-	new_stack = malloc(sizeof(stack_t));
-	if (!new_stack)
-	{
-		printf("Error: malloc failed\n");
-		exit(EXIT_FAILURE);
-	}
-
-	new_stack->n = arg;
-	new_stack->next = NULL;
-	new_stack->prev = NULL;
-
-	if (*stack == NULL)
-	{
-		*stack = new_stack;
-		new_stack->next = NULL;
-		new_stack->prev = NULL;
-	}
-	else
-	{
-		while (tmp->next != NULL)
-		{
-			tmp = tmp->next;
-		}
-		tmp->next = new_stack;
-		new_stack->prev = tmp;
-	}
-}
-
-void opcode_pall(stack_t **stack, unsigned int line_number)
-{
-	stack_t *tmp;
-
-	tmp = *stack;
-
-	while (tmp->next != NULL)
-	{
-		tmp = tmp->next;
-	}
-
-	while (tmp != NULL)
-	{
-		printf("%d\n", tmp->n);
-		tmp = tmp->prev;
-	}
-}
-
-void interpret_code(string_t **string_stack)
-{
-	char buffer[1024];
-	stack_t *head;
-        char opcode[100];
-	int i;
-	unsigned int line_number;
-
-	line_number = 1;
 	instruction_t instruction_table[] = {
-    		{"push", opcode_push},
-    		{"pall", opcode_pall},
-    		{NULL, NULL}
+		{"push", opcode_push},
+		{"pall", opcode_pall},
+		{"pint", opcode_pint},
+		{"pop", opcode_pop},
+		{NULL, NULL}
 	};
-        	if (sscanf(buffer, "%s %d", opcode, &arg) == 1)
+	stack_t *stack;
+	string_t *temp;
+	char opcode[100];
+	int i, ret_scan;
+	unsigned int line_number;
+	temp = *string_head;
+	line_number = 1;
+	stack = NULL;
+
+	while (temp->next != NULL)
+	{
+		temp = temp->next;
+	}
+
+	while (temp != NULL)
+	{
+		ret_scan = sscanf(temp->content, "%s %d", opcode, &arg);
+		if (ret_scan == 1)
 		{
 			if (strcmp(opcode, "push") == 0)
 			{
 				printf("L%d: usage: push integer", line_number);
 				exit(EXIT_FAILURE);
 			}
-        	}
+		}
 
-		printf("%s, %d", opcode, arg);
+		opcode[4] = '\0';
 		for (i = 0; instruction_table[i].opcode != NULL; i++)
 		{
 			if (strcmp(instruction_table[i].opcode, opcode) == 0)
 			{
-				instruction_table[i].f(&head, line_number);
+				instruction_table[i].f(&stack, line_number);
 				break;
 			}
 		}
 		line_number++;
-}
-
-void read_file(string_t **head, FILE *file)
-{
-	char buffer[1024];
-	string_t *tmp;
-
-	while (fgets(buffer, sizeof(buffer), file) != NULL)
-	{
-		tmp = malloc(sizeof(string_t));
-		if (!tmp)
-		{
-			printf("Error: malloc failed\n");
-			exit(EXIT_FAILURE);
-		}
-		strcpy(tmp->content, buffer);
-		tmp->next = NULL;
-		tmp->prev = NULL;
-		if (*head == NULL)
-		{
-			*head = tmp;
-		}
-		else
-		{
-			tmp->next = (*head);
-			(*head)->prev = tmp;
-			*head = tmp;
-		}
+		temp = temp->prev;
 	}
 }
-int main(int arg, char **args)
+
+int main(int argc, char **args)
 {
 	FILE *file;
 	char err[1024];
 
 	string_t *head;
 
-	if (!verify(arg))
+	if (!verify(argc))
 	{
 		printf("%s", "USAGE: monty file");
 		exit(EXIT_FAILURE);
@@ -150,12 +73,7 @@ int main(int arg, char **args)
 	read_file(&head, file);
 	fclose(file);
 
-	while (head != NULL)
-	{
-		printf("%s", head->content);
-		head = head->next;
-	}
-	//interpret_code(&head);
+	interpret_code(&head);
 
 	return (0);
 }
