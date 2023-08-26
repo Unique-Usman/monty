@@ -24,6 +24,7 @@ void opcode_add(stack_t **stack, unsigned int line_number)
 	if (count < 2)
 	{
 		printf("L%d: can't add, stack too short\n", line_number);
+		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
 
@@ -78,6 +79,7 @@ void opcode_sub(stack_t **stack, unsigned int line_number)
 	if (count < 2)
 	{
 		printf("L%d: can't sub, stack too short\n", line_number);
+		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
 
@@ -117,6 +119,7 @@ void opcode_div(stack_t **stack, unsigned int line_number)
 	if (count < 2)
 	{
 		printf("L%d: can't div, stack too short\n", line_number);
+		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
 
@@ -131,6 +134,7 @@ void opcode_div(stack_t **stack, unsigned int line_number)
 	if (tmp == 0)
 	{
 		printf("L%d: division by zero\n", line_number);
+		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
 	tmp = temp->prev->n / tmp;
@@ -162,6 +166,7 @@ void opcode_mul(stack_t **stack, unsigned int line_number)
 	if (count < 2)
 	{
 		printf("L%d: can't mul, stack too short\n", line_number);
+		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
 

@@ -32,6 +32,7 @@ void interpret_code(string_t **string_head)
 	char opcode[100];
 	int i, ret_scan, comment;
 	unsigned int line_number;
+
 	temp = *string_head;
 	line_number = 1;
 	stack = NULL;
@@ -72,6 +73,7 @@ void interpret_code(string_t **string_head)
 		line_number++;
 		temp = temp->prev;
 	}
+	free_stack(stack);
 }
 
 /**

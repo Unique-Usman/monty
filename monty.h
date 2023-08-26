@@ -71,6 +71,7 @@ void opcode_pchar(stack_t **stack, unsigned int line_number);
 void opcode_pstr(stack_t **stack, unsigned int line_number);
 void opcode_rotl(stack_t **stack, unsigned int line_number);
 void opcode_rotr(stack_t **stack, unsigned int line_number);
+void free_stack(stack_t *stack);
 
 /* the functions that runs the code */
 void interpret_code(string_t **string_head);
