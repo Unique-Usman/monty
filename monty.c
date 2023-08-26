@@ -74,6 +74,17 @@ void interpret_code(string_t **string_head)
 	}
 }
 
+/**
+ * main - Entry point for Monty interpreter
+ * @argc: Argument count
+ * @args: Array of arguments
+ *
+ * Description: The main function serves as the entry point for
+ * the Monty interpreter. It processes command line arguments and
+ * executes instructions from the input source.
+ *
+ * Return: 0 on success, other values on error
+ */
 int main(int argc, char **args)
 {
 	FILE *file;
