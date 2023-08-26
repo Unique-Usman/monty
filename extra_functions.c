@@ -24,29 +24,29 @@ int verify(int argc)
 
 void read_file(string_t **head, FILE *file)
 {
-        char buffer[1024];
-        string_t *tmp;
+	char buffer[1024];
+	string_t *tmp;
 
-        while (fgets(buffer, sizeof(buffer), file) != NULL)
-        {
-                tmp = malloc(sizeof(string_t));
-                if (!tmp)
-                {
-                        printf("Error: malloc failed\n");
-                        exit(EXIT_FAILURE);
-                }
-                strcpy(tmp->content, buffer);
-                tmp->next = NULL;
-                tmp->prev = NULL;
-                if (*head == NULL)
-                {
-                        *head = tmp;
-                }
-                else
-                {
-                        tmp->next = (*head);
-                        (*head)->prev = tmp;
-                        *head = tmp;
-                }
-        }
+	while (fgets(buffer, sizeof(buffer), file) != NULL)
+	{
+		tmp = malloc(sizeof(string_t));
+		if (!tmp)
+		{
+			printf("Error: malloc failed\n");
+			exit(EXIT_FAILURE);
+		}
+		strcpy(tmp->content, buffer);
+		tmp->next = NULL;
+		tmp->prev = NULL;
+		if (*head == NULL)
+		{
+			*head = tmp;
+		}
+		else
+		{
+			tmp->next = (*head);
+			(*head)->prev = tmp;
+			*head = tmp;
+		}
+	}
 }

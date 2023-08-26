@@ -8,32 +8,32 @@
  */
 void opcode_add(stack_t **stack, unsigned int line_number)
 {
-        int count, tmp;
-        stack_t *temp;
+	int count, tmp;
+	stack_t *temp;
 
-        temp = *stack;
-        count = 0;
-        while (temp != NULL)
-        {
-                temp = temp->next;
-                count++;
-                if (count == 2)
-                        break;
-        }
+	temp = *stack;
+	count = 0;
+	while (temp != NULL)
+	{
+		temp = temp->next;
+		count++;
+		if (count == 2)
+			break;
+	}
 
-        if (count < 2)
-        {
-                printf("L%d:  can't add, stack too short", line_number);
-                exit(EXIT_FAILURE);
-        }
+	if (count < 2)
+	{
+		printf("L%d: can't add, stack too short\n", line_number);
+		exit(EXIT_FAILURE);
+	}
 
-        temp = *stack;
-        while (temp->next != NULL)
-        {
-                temp = temp->next;
-        }
+	temp = *stack;
+	while (temp->next != NULL)
+	{
+		temp = temp->next;
+	}
 
-        tmp = temp->n;
+	tmp = temp->n;
 	tmp = tmp + temp->prev->n;
 
 	temp->prev->n = tmp;
@@ -62,34 +62,119 @@ void opcode_nop(stack_t **stack, unsigned int line_number)
  */
 void opcode_sub(stack_t **stack, unsigned int line_number)
 {
-        int count, tmp;
-        stack_t *temp;
+	int count, tmp;
+	stack_t *temp;
 
-        temp = *stack;
-        count = 0;
-        while (temp != NULL)
-        {
-                temp = temp->next;
-                count++;
-                if (count == 2)
-                        break;
-        }
+	temp = *stack;
+	count = 0;
+	while (temp != NULL)
+	{
+		temp = temp->next;
+		count++;
+		if (count == 2)
+			break;
+	}
 
-        if (count < 2)
-        {
-                printf("L%d:  can't sub, stack too short", line_number);
-                exit(EXIT_FAILURE);
-        }
+	if (count < 2)
+	{
+		printf("L%d: can't sub, stack too short\n", line_number);
+		exit(EXIT_FAILURE);
+	}
 
-        temp = *stack;
-        while (temp->next != NULL)
-        {
-                temp = temp->next;
-        }
+	temp = *stack;
+	while (temp->next != NULL)
+	{
+		temp = temp->next;
+	}
 
-        tmp = temp->n;
-        tmp = temp->prev->n - tmp;
+	tmp = temp->n;
+	tmp = temp->prev->n - tmp;
 
-        temp->prev->n = tmp;
-        opcode_pop(stack, line_number);
+	temp->prev->n = tmp;
+	opcode_pop(stack, line_number);
+}
+
+/**
+ * opcode_div - Divides second top element by top element
+ * @stack: Pointer to the stack
+ * @line_number: Current line number
+ */
+void opcode_div(stack_t **stack, unsigned int line_number)
+{
+	int count, tmp;
+	stack_t *temp;
+
+	temp = *stack;
+	count = 0;
+	while (temp != NULL)
+	{
+		temp = temp->next;
+		count++;
+		if (count == 2)
+			break;
+	}
+
+	if (count < 2)
+	{
+		printf("L%d: can't div, stack too short\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+
+	temp = *stack;
+	while (temp->next != NULL)
+	{
+		temp = temp->next;
+	}
+
+	tmp = temp->n;
+
+	if (tmp == 0)
+	{
+		printf("L%d: division by zero\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+	tmp = temp->prev->n / tmp;
+
+	temp->prev->n = tmp;
+	opcode_pop(stack, line_number);
+}
+
+/**
+ * opcode_mul - Multiplies the top two elements of the stack.
+ * @stack: Pointer to the stack's top.
+ * @line_number: Current line number.
+ */
+void opcode_mul(stack_t **stack, unsigned int line_number)
+{
+	int count, tmp;
+	stack_t *temp;
+
+	temp = *stack;
+	count = 0;
+	while (temp != NULL)
+	{
+		temp = temp->next;
+		count++;
+		if (count == 2)
+			break;
+	}
+
+	if (count < 2)
+	{
+		printf("L%d: can't mul, stack too short\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+
+	temp = *stack;
+	while (temp->next != NULL)
+	{
+		temp = temp->next;
+	}
+
+	tmp = temp->n;
+
+	tmp = temp->prev->n * tmp;
+
+	temp->prev->n = tmp;
+	opcode_pop(stack, line_number);
 }

@@ -1,6 +1,12 @@
 #include "monty.h"
 
 int arg = 0;
+
+
+/**
+ * interpret_code - This is main function the execute the code
+ * @string_head: Pointer to code string
+ */
 void interpret_code(string_t **string_head)
 {
 	instruction_t instruction_table[] = {
@@ -11,12 +17,20 @@ void interpret_code(string_t **string_head)
 		{"swap", opcode_swap},
 		{"add", opcode_add},
 		{"sub", opcode_sub},
+		{"div", opcode_div},
+		{"mod", opcode_mod},
+		{"mul", opcode_mul},
+		{"pchar", opcode_pchar},
+		{"pstr", opcode_pstr},
+		{"rotl", opcode_rotl},
+		{"rotr", opcode_rotr},
 		{NULL, NULL}
 	};
 	stack_t *stack;
 	string_t *temp;
+	char com;
 	char opcode[100];
-	int i, ret_scan;
+	int i, ret_scan, comment;
 	unsigned int line_number;
 	temp = *string_head;
 	line_number = 1;
@@ -29,7 +43,13 @@ void interpret_code(string_t **string_head)
 
 	while (temp != NULL)
 	{
+		comment = sscanf(temp->content, "%c", &com);
 		ret_scan = sscanf(temp->content, "%s %d", opcode, &arg);
+		if (comment == 1 && com == '#')
+		{
+			temp = temp->prev;
+			continue;
+		}
 		if (ret_scan == 1)
 		{
 			if (strcmp(opcode, "push") == 0)
@@ -39,7 +59,8 @@ void interpret_code(string_t **string_head)
 			}
 		}
 
-		opcode[4] = '\0';
+		if (strcmp(opcode, "pchar") != 0)
+			opcode[4] = '\0';
 		for (i = 0; instruction_table[i].opcode != NULL; i++)
 		{
 			if (strcmp(instruction_table[i].opcode, opcode) == 0)
@@ -57,8 +78,8 @@ int main(int argc, char **args)
 {
 	FILE *file;
 	char err[1024];
-
 	string_t *head;
+
 
 	if (!verify(argc))
 	{
@@ -78,5 +99,6 @@ int main(int argc, char **args)
 
 	interpret_code(&head);
 
+	arg = arg;
 	return (0);
 }

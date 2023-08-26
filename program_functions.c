@@ -89,7 +89,7 @@ void opcode_pint(stack_t **stack, unsigned int line_number)
 
 	if (*stack == NULL)
 	{
-		printf("%u: can't pint, stack empty", line_number);
+		printf("L%u: can't pint, stack empty\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 
@@ -117,7 +117,7 @@ void opcode_pop(stack_t **stack, unsigned int line_number)
 
 	if (*stack == NULL)
 	{
-		printf("%u: can't pop, stack empty", line_number);
+		printf("L%u: can't pop, stack empty\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 
@@ -162,7 +162,7 @@ void opcode_swap(stack_t **stack, unsigned int line_number)
 
 	if (count < 2)
 	{
-		printf("L%d: can't swap, stack too short", line_number);
+		printf("L%d: can't swap, stack too short\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 
