@@ -75,6 +75,7 @@ void interpret_code(string_t **string_head)
 		temp = temp->prev;
 	}
 	free_stack(stack);
+	free_string(*string_head);
 }
 
 /**

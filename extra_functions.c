@@ -68,3 +68,20 @@ void free_stack(stack_t *stack)
 		free(temp);
 	}
 }
+/**
+ * free_string - Deallocates memory used by a stack.
+ * Releases the memory used by the provided stack.
+ * @stack: Pointer to the stack to be freed.
+ */
+void free_string(string_t *stack)
+{
+	string_t *temp;
+
+	temp = NULL;
+	while (stack != NULL)
+	{
+		temp = stack;
+		stack = stack->next;
+		free(temp);
+	}
+}

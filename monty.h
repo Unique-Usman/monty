@@ -79,5 +79,6 @@ void interpret_code(string_t **string_head);
 /* suportting functions */
 int verify(int argc);
 void read_file(string_t **head, FILE *file);
+void free_string(string_t *stack);
 
 #endif /* MONTY_H */
