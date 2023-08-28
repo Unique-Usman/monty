@@ -55,7 +55,7 @@ void interpret_code(string_t **string_head)
 		{
 			if (strcmp(opcode, "push") == 0)
 			{
-				fprintf(stderr, "L%d: usage: push integer", line_number);
+				fprintf(stderr, "L%d: usage: push integer\n", line_number);
 				exit(EXIT_FAILURE);
 			}
 		}
