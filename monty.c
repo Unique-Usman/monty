@@ -50,6 +50,7 @@ void interpret_code(string_t **string_head)
 		if (comment == 1 && com == '#')
 		{
 			temp = temp->prev;
+			line_number++;
 			continue;
 		}
 		if (ret_scan == 1)
@@ -75,7 +76,7 @@ void interpret_code(string_t **string_head)
 			}
 		}
 		if (!isCommand)
-			fprintf(stderr, "L2: unknown instruction %s\n", opcode);
+			fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
 		line_number++;
 		temp = temp->prev;
 	}
