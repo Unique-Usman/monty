@@ -69,8 +69,8 @@ void interpret_code(string_t **string_head)
 			}
 		}
 
-		/*if (strcmp(opcode, "pchar") != 0)
-			opcode[4] = '\0';*/
+		if (strcmp(opcode, "pchar") != 0)
+			opcode[4] = '\0';
 		isCommand = 0;
 		for (i = 0; instruction_table[i].opcode != NULL; i++)
 		{
