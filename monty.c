@@ -45,10 +45,11 @@ void interpret_code(string_t **string_head)
 
 	while (temp != NULL)
 	{
-		if (strlen(temp->content) == 0)
+		if (strlen(temp->content) == 1)
 		{
-			continue;
 			line_number++;
+			temp = temp->prev;
+			continue;
 		}
 		comment = sscanf(temp->content, "%c", &com);
 		ret_scan = sscanf(temp->content, "%s %d", opcode, &arg);
