@@ -34,7 +34,7 @@ void interpret_code(string_t **string_head)
 	unsigned int line_number;
 
 	temp = *string_head;
-	line_number = 1;
+	line_number = 0;
 	stack = NULL;
 
 	while (temp->next != NULL)
