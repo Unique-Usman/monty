@@ -27,6 +27,7 @@ void interpret_code(string_t **string_head)
 		{NULL, NULL}
 	};
 	stack_t *stack;
+	int isCommand;
 	string_t *temp;
 	char com;
 	char opcode[100];
@@ -61,16 +62,20 @@ void interpret_code(string_t **string_head)
 			}
 		}
 
-		if (strcmp(opcode, "pchar") != 0)
-			opcode[4] = '\0';
+		/*if (strcmp(opcode, "pchar") != 0)
+			opcode[4] = '\0';*/
+		isCommand = 0;
 		for (i = 0; instruction_table[i].opcode != NULL; i++)
 		{
 			if (strcmp(instruction_table[i].opcode, opcode) == 0)
 			{
 				instruction_table[i].f(&stack, line_number);
+				isCommand = 1;
 				break;
 			}
 		}
+		if (!isCommand)
+			fprintf(stderr, "L2: unknown instruction %s\n", opcode);
 		line_number++;
 		temp = temp->prev;
 	}
