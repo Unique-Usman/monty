@@ -22,7 +22,7 @@ void opcode_mod(stack_t **stack, unsigned int line_number)
 
 	if (count < 2)
 	{
-		printf("L%d: can't mod, stack too short\n", line_number);
+		fprintf(stderr, "L%d: can't mod, stack too short\n", line_number);
 		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
@@ -37,7 +37,7 @@ void opcode_mod(stack_t **stack, unsigned int line_number)
 
 	if (tmp == 0)
 	{
-		printf("L%d: division by zero\n", line_number);
+		fprintf(stderr, "L%d: division by zero\n", line_number);
 		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
@@ -58,7 +58,7 @@ void opcode_pchar(stack_t **stack, unsigned int line_number)
 
 	if (*stack == NULL)
 	{
-		printf("L%u: can't pchar, stack empty\n", line_number);
+		fprintf(stderr, "L%d: can't pchar, stack empty\n", line_number);
 		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
@@ -71,7 +71,7 @@ void opcode_pchar(stack_t **stack, unsigned int line_number)
 
 	if (tmp->n < 0 || tmp->n > 127)
 	{
-		printf("L%d: can't pchar, value out of range\n", line_number);
+		fprintf(stderr, "L%d: can't pchar, value out of range\n", line_number);
 		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}

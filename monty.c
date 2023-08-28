@@ -55,7 +55,7 @@ void interpret_code(string_t **string_head)
 		{
 			if (strcmp(opcode, "push") == 0)
 			{
-				printf("L%d: usage: push integer", line_number);
+				fprintf(stderr, "L%d: usage: push integer", line_number);
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -96,7 +96,7 @@ int main(int argc, char **args)
 
 	if (!verify(argc))
 	{
-		printf("%s", "USAGE: monty file");
+		fprintf(stderr, "%s", "USAGE: monty file");
 		exit(EXIT_FAILURE);
 	}
 	file = fopen(args[1], "r");
@@ -104,7 +104,7 @@ int main(int argc, char **args)
 	{
 		strcpy(err, "Error: Can't open file ");
 		strcat(err, args[1]);
-		printf("%s", err);
+		fprintf(stderr, "%s", err);
 		exit(EXIT_FAILURE);
 	}
 	read_file(&head, file);

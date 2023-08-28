@@ -32,7 +32,7 @@ void read_file(string_t **head, FILE *file)
 		tmp = malloc(sizeof(string_t));
 		if (!tmp)
 		{
-			printf("Error: malloc failed\n");
+			fprintf(stderr, "Error: malloc failed\n");
 			exit(EXIT_FAILURE);
 		}
 		strcpy(tmp->content, buffer);

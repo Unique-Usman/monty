@@ -18,7 +18,7 @@ void opcode_push(stack_t **stack, unsigned int line_number)
 	new_stack = malloc(sizeof(stack_t));
 	if (!new_stack)
 	{
-		printf("Error: malloc failed\n");
+		fprintf(stderr, "Error: malloc failed\n");
 		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
@@ -90,7 +90,7 @@ void opcode_pint(stack_t **stack, unsigned int line_number)
 
 	if (*stack == NULL)
 	{
-		printf("L%u: can't pint, stack empty\n", line_number);
+		fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
 		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
@@ -119,7 +119,7 @@ void opcode_pop(stack_t **stack, unsigned int line_number)
 
 	if (*stack == NULL)
 	{
-		printf("L%u: can't pop, stack empty\n", line_number);
+		fprintf(stderr, "L%d: can't pop, stack empty\n", line_number);
 		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
@@ -165,7 +165,7 @@ void opcode_swap(stack_t **stack, unsigned int line_number)
 
 	if (count < 2)
 	{
-		printf("L%d: can't swap, stack too short\n", line_number);
+		fprintf(stderr, "L%d: can't swap, stack too short\n", line_number);
 		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
