@@ -45,6 +45,11 @@ void interpret_code(string_t **string_head)
 
 	while (temp != NULL)
 	{
+		if (strlen(temp->content) == 0)
+		{
+			continue;
+			line_number++;
+		}
 		comment = sscanf(temp->content, "%c", &com);
 		ret_scan = sscanf(temp->content, "%s %d", opcode, &arg);
 		if (comment == 1 && com == '#')
