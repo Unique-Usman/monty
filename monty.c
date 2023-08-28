@@ -96,7 +96,7 @@ int main(int argc, char **args)
 
 	if (!verify(argc))
 	{
-		fprintf(stderr, "%s", "USAGE: monty file");
+		fprintf(stderr, "%s\n", "USAGE: monty file");
 		exit(EXIT_FAILURE);
 	}
 	file = fopen(args[1], "r");
@@ -104,7 +104,7 @@ int main(int argc, char **args)
 	{
 		strcpy(err, "Error: Can't open file ");
 		strcat(err, args[1]);
-		fprintf(stderr, "%s", err);
+		fprintf(stderr, "%s\n", err);
 		exit(EXIT_FAILURE);
 	}
 	read_file(&head, file);
